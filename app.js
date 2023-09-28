@@ -26,17 +26,21 @@ const server = http.createServer((req, res) => {
             body.push(chunk);
         });
         //Buffer the chunks
-        req.on('end', () => {
+        return req.on('end', () => {
            const parsedBody = Buffer.concat(body).toString();
-           console.log(parsedBody);
+           const message = parsedBody.split('=')[1];
+           fs.writeFile('message.txt', message, (error) => {
+
+               //Create file for above user input on form
+               //Send redirect status code in response
+               res.statusCode = 302;
+               //redirect to '/'
+               res.setHeader('Location', '/');
+               return res.end();
+
+           });
         });
-        //Create file for above user input on form
-        fs.writeFileSync('message.txt', 'qwerty');
-        //Send redirect status code in response
-        res.statusCode = 302;
-        //redirect to '/'
-        res.setHeader('Location', '/');
-        return res.end();
+
     }
 
     res.setHeader('Content-Type', 'text/html');
