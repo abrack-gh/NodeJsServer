@@ -14,9 +14,11 @@ application.use(bodyParser.urlencoded({extended: false}));
 
 application.use('/admin', adminRoutes);
 application.use(shopRoutes);
+application.use(express.static(path.join(__dirname, 'public')));
 
+//SEND ERROR VIEW WITH 404 ERROR IN HEADER
 application.use((req, res, next) => {
-    res.status(400).sendFile(path.join(__dirname,'./', 'views', 'error.html'));
+    res.status(404).sendFile(path.join(__dirname,'./', 'views', 'error.html'));
 })
 
 
