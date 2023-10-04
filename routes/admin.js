@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-router.use
+router.use;
 
 router.use('/add', (req, res, next) => {
     console.log("Second middleware!");
