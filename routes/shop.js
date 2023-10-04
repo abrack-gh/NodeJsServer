@@ -6,10 +6,6 @@ router.use;
 
 module.exports = router;
 
-router.use('/', (req, res, next) => {
-    next();
-});
-
-router.use('/', (req, res, next) => {
+router.get('/', (req, res, next) => {
     res.send('<h1>Hello!</h1>');
 });

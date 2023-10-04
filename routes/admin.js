@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.use;
 
-router.use('/add', (req, res, next) => {
+router.get('/add', (req, res, next) => {
     console.log("Second middleware!");
     res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>');
 });
