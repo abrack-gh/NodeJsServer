@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ pageTitle }}</title>
+    <link rel="stylesheet" href="/public/css/main.css">
+
+    {{#if productCSS }}
+    <link rel="stylesheet" href="/public/css/product.css">
+    {{/if}}
+
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a class="{{#if activeShop }}active {{/if}}" href="/">Shop</a></li>
+            <li><a class="{{#if activeProduct }}active {{/if}}" href="/admin/add-product">Product</a></li>
+
+        </ul>
+    </nav>
+</header>
+
+    {{{ body }}}
+
+</body>
+</html>
