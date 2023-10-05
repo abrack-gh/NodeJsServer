@@ -6,20 +6,22 @@ const rootDir = require('../helpers/path');
 
 const router = express.Router();
 
+const products = [];
+
 router.use;
 
 
 //HTTP GET REQUEST => /admin/add
 router.get('/add-product', (req, res, next) => {
-    res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
+    res.render('add-product', {pageTitle: 'Add Product'});
 });
 
 //Filters only for post requests
 //HTTP POST REQUEST => /admin/product
 router.post('/add-product', (req, res, next) => {
-    console.log(req.body);
+    products.push({title: req.body.title, price: req.body.price, descr: req.body.descr});
     res.redirect('/');
 });
 
-module.exports = router;
-
+exports.routes = router;
+exports.products = products;
