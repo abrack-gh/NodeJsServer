@@ -5,10 +5,14 @@ const bodyParser = require('body-parser');
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const path = require('path');
-
+const expressHbs = require('express-handlebars');
+const {engine} = require("express-handlebars");
 const application = express();
 
-application.set('view engine', 'pug');
+application.engine('handlebars', engine({defaultLayout: false}));
+
+
+application.set('view engine', 'handlebars');
 application.set('views', 'views');
 
 //Parser
@@ -20,7 +24,7 @@ application.use(express.static(path.join(__dirname, 'public')));
 
 //SEND ERROR VIEW WITH 404 ERROR IN HEADER
 application.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname,'./', 'views', 'error.html'));
+    res.status(404).render('404', {pageTitle: 'Page Not Found'});
 })
 
 

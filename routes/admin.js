@@ -13,7 +13,7 @@ router.use;
 
 //HTTP GET REQUEST => /admin/add
 router.get('/add-product', (req, res, next) => {
-    res.render('add-product', {pageTitle: 'Add Product'});
+    res.render('add-product.handlebars', {pageTitle: 'Add Product', path:'/admin/add-product'});
 });
 
 //Filters only for post requests
