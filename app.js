@@ -5,15 +5,11 @@ const bodyParser = require('body-parser');
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const path = require('path');
-const expressHbs = require('express-handlebars');
-const {engine} = require("express-handlebars");
 const application = express();
 
-application.engine('handlebars', engine({layoutsDir: '/views/layouts/', defaultLayout: 'main-layout', extname: 'handlebars'}));
 
-
-application.set('view engine', 'handlebars');
-application.set('views', 'views');
+application.set('view engine', 'ejs');
+// application.set('views', 'views');
 
 //Parser
 application.use(bodyParser.urlencoded({extended: false}));
