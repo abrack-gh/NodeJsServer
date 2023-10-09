@@ -2,10 +2,11 @@
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const path = require('path');
 const application = express();
+const errorController = require('./controllers/errorController');
 
 
 application.set('view engine', 'ejs');
@@ -14,14 +15,12 @@ application.set('view engine', 'ejs');
 //Parser
 application.use(bodyParser.urlencoded({extended: false}));
 
-application.use('/admin', adminData.routes);
+application.use('/admin', adminRoutes);
 application.use(shopRoutes);
 application.use(express.static(path.join(__dirname, 'public')));
 
 //SEND ERROR VIEW WITH 404 ERROR IN HEADER
-application.use((req, res, next) => {
-    res.status(404).render('404', {pageTitle: 'Page Not Found'});
-})
+application.use(errorController.getErrorPage);
 
 
 
