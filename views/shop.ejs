@@ -4,7 +4,7 @@
 <%- include('includes/nav.ejs') %>
 
 <main>
-    <% if (prods.length > 0) { %>
+    <% if (prods != null) { %>
     <div class="grid">
         <% for (let product of prods) { %>
         <article class="card product-item">
