@@ -2,7 +2,7 @@ const Product = require('../models/product')
 const json = require('../data/products.json');
 
 exports.getAddProduct = (req, res, next) => {
-    res.render('add-products',
+    res.render('admin/add-products',
         {
             pageTitle: 'Add Product',
             path: '/admin/add-product',
@@ -18,10 +18,14 @@ exports.postAddProduct = (req, res, next) => {
 }
 
 exports.getShopData = (req, res, next) => {
-    const products = Product.fetchAll();
-    res.render('shop', {pageTitle: 'Shop',
-        prods: products, path:'/',
-        hasProducts: json != null,
-        activeShop: true, productCSS: true});
+    Product.fetchAll((products) => {
+
+        res.render('shop/shop', {pageTitle: 'Shop',
+            prods: products, path:'/',
+            hasProducts: json != null,
+            activeShop: true, productCSS: true});
+
+    });
+
 };
 
