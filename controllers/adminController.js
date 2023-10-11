@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const json = require("../data/products.json");
 
 
 exports.getEditProducts = (req, res, next) => {
@@ -12,13 +13,16 @@ exports.getEditProducts = (req, res, next) => {
 }
 
 exports.getShop = (req, res, next) => {
-    res.render('../views/admin/shop',
-        {
-            pageTitle: 'Products',
-            path: 'admin/shop',
-            activeProduct: true,
-            productCSS: true
-        })
+    Product.fetchAll((products) => {
+
+        res.render('admin/shop', {
+            pageTitle: 'Shop',
+            prods: products, path: '/',
+            hasProducts: json != null,
+            activeShop: true, productCSS: true
+        });
+
+    });
 }
 
 exports.getAddProduct = (req, res, next) => {
