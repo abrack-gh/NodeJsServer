@@ -63,3 +63,16 @@ exports.getShopData = (req, res, next) => {
 
     });
 }
+
+
+exports.getOrders = (req, res, next) => {
+    Product.fetchAll((products) => {
+
+        res.render('shop/orders', {
+            pageTitle: 'Your Orders',
+            prods: products, path: '/orders',
+            activeShop: true, productCSS: true
+        });
+
+    });
+}
