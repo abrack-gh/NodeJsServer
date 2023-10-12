@@ -1,5 +1,6 @@
 const json = require('../data/products.json');
 const Product = require("../models/product");
+const Cart = require("../models/cart");
 
 exports.getCart = (req, res, next) => {
     res.render('../views/shop/cart',
@@ -20,6 +21,14 @@ exports.getCheckout = (req, res, next) => {
             productCSS: true
         })
 }
+
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId, (product) => {
+      Cart.addProduct(prodId, product.price);
+  })
+  res.redirect('/cart');
+};
 
 exports.getIndex = (req, res, next) => {
     res.render('../views/shop/index',

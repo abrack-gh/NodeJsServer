@@ -16,4 +16,6 @@ router.get('/index', shopController.getIndex);
 router.get('/', shopController.getShopData);
 router.get('/orders', shopController.getOrders);
 
+router.post('/cart', shopController.postCart)
+
 module.exports = router;
