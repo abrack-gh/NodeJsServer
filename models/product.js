@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto')
 
 const p = path.join(
     path.dirname(process.mainModule.filename),
@@ -27,18 +28,24 @@ module.exports = class Product {
 
     }
 
-    save(){
 
-        getProductsFromFile(products => {
-            products.push(this);
-            fs.writeFile(p, JSON.stringify(products), err => {
-                console.log(err);
-            })
-        });
-    }
-
+save() {
+    this.id = crypto.randomUUID().toString();
+    getProductsFromFile(products => {
+        products.push(this);
+        fs.writeFile(p, JSON.stringify(products), err => {
+            console.log(err);
+        })
+    });
+}
     static fetchAll(cb) {
         getProductsFromFile(cb);
     }
 
-}
+    static findById(id, cb) {
+        getProductsFromFile(products => {
+            const product = products.find(products => products.id === id);
+            cb(product);
+        });
+    }
+};
