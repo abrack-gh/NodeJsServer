@@ -9,10 +9,10 @@ router.use;
 
 
 router.get('/products', shopController.getShopData);
+router.get('/products/:productId', shopController.getProduct);
 router.get('/cart', shopController.getCart);
 router.get('/checkout', shopController.getCheckout);
 router.get('/index', shopController.getIndex);
-router.get('/product-details', shopController.getProductDetails);
 router.get('/', shopController.getShopData);
 router.get('/orders', shopController.getOrders);
 

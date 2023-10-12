@@ -3,7 +3,16 @@
 <body>
 <%- include('../includes/nav.ejs') %>
 
-<main>
-    <h1>Product Details...</h1>
+<main class="centered">
+    <h1><%= product.title %></h1>
+    <hr>
+    <div>
+        <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+    </div>
+    <h2><%= product.price %></h2>
+    <p><%= product.description %></p>
+    <form action="/add-to-cart" method="POST">
+        <button class="btn">Add to Cart</button>
+    </form>
 </main>
 <%- include('../includes/end.ejs') %>
