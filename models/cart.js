@@ -2,12 +2,21 @@ const fs = require('fs');
 const path = require('path');
 const {compileFileClient} = require("pug");
 
+/*
+
+CALLBACK FUNCTIONS are asynchronous equivalents for a function, providing non-blocking code blocks. Maintains performance in Single Threaded NodeJS
+Whenever a task is done, this function will be called automatically.
+
+ */
+
 const p = path.join(
     path.dirname(process.mainModule.filename),
     'data',
     'cart.json'
     );
 module.exports = class Cart {
+
+    //Add an existing product to the cart, using ID to map the product.
     static addProduct(id, productPrice){
         fs.readFile(p, (err, data) => {
             let cart = {products: [], totalPrice: 0};
@@ -26,6 +35,7 @@ module.exports = class Cart {
                 updatedProduct = { id: id, qty: 1 };
                 cart.products = [...cart.products, updatedProduct];
             }
+            //Determine total price of the cart by adding product price (+) converts value from String to Number.
             cart.totalPrice = cart.totalPrice + +productPrice;
             fs.writeFile(p, JSON.stringify(cart), err => {
                 console.log(err);
