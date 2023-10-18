@@ -17,22 +17,22 @@ const p = path.join(
 module.exports = class Cart {
 
     //Add an existing product to the cart, using ID to map the product.
-    static addProduct(id, productPrice){
+    static addProduct(id, productPrice) {
         fs.readFile(p, (err, data) => {
             let cart = {products: [], totalPrice: 0};
-            if(!err) {
+            if (!err) {
                 cart = JSON.parse(data);
             }
             const existingIndex = cart.products.findIndex(prod => prod.id === id);
             const existingProduct = cart.products[existingIndex];
             let updatedProduct;
-            if(existingProduct) {
-                updatedProduct = {...existingProduct }
+            if (existingProduct) {
+                updatedProduct = {...existingProduct}
                 updatedProduct.qty = updatedProduct + 1;
                 cart.products = [...cart.products];
                 cart.products[existingIndex] = updatedProduct;
             } else {
-                updatedProduct = { id: id, qty: 1 };
+                updatedProduct = {id: id, qty: 1};
                 cart.products = [...cart.products, updatedProduct];
             }
             //Determine total price of the cart by adding product price (+) converts value from String to Number.
