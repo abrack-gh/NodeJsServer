@@ -24,8 +24,9 @@ module.exports = class Product {
 
     //Standard constructor similar to that you would see in Java.
 
-    constructor(title, imageUrl, price, description) {
+    constructor(id, title, imageUrl, price, description) {
 
+        this.id = id;
         this.title = title;
         this.imageUrl = imageUrl;
         this.price = price;
@@ -34,18 +35,28 @@ module.exports = class Product {
     }
 
 
-save() {
 
-        //Assign a random UUID to each item being saved, and push the item into the products.json file using the writeFile method. Otherwise, log any errors.
-
-    this.id = crypto.randomUUID().toString();
-    getProductsFromFile(products => {
-        products.push(this);
-        fs.writeFile(p, JSON.stringify(products), err => {
-            console.log(err);
-        })
-    });
-}
+    //Assign a random UUID to each item being saved, and push the item into the products.json file using the writeFile method. Otherwise, log any errors.
+    save() {
+        getProductsFromFile(products => {
+            if (this.id) {
+                const existingProductIndex = products.findIndex(
+                    prod => prod.id === this.id
+                );
+                const updatedProducts = [...products];
+                updatedProducts[existingProductIndex] = this;
+                fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+                    console.log(err);
+                });
+            } else {
+                this.id = Math.random().toString();
+                products.push(this);
+                fs.writeFile(p, JSON.stringify(products), err => {
+                    console.log(err);
+                });
+            }
+        });
+    }
 
 //The callback function is passed as an argument to another function and is executed once the other function has completed its task. In this case, it is used to
     // handle an asynchronous function of reading from a file.
@@ -53,6 +64,10 @@ save() {
     static fetchAll(cb) {
         getProductsFromFile(cb);
     }
+
+
+
+
 
 //Find by id is using the default node method of find to match a product in the products json file with the id object passed in the argument.
     //If an id is matched, the data is returned using the callback function.
