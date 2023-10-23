@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const json = require("../data/products.json");
+const db = require('../util/database');
 
 
 exports.getEditProducts = (req, res, next) => {
@@ -40,8 +41,11 @@ exports.postAddProduct = (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
     const product = new Product(null, title, imageUrl, price, description);
-    product.save();
-    res.redirect('/products');
+    product.save()
+        .then(() => {
+            res.redirect('/products');
+        })
+        .catch(err => console.log(err));
 };
 
 exports.getEditProduct = (req, res, next) => {

@@ -22,16 +22,6 @@ application.use(express.static(path.join(__dirname, 'public')));
 //SEND ERROR VIEW WITH 404 ERROR IN HEADER
 application.use(errorController.getErrorPage);
 
-db.execute('SELECT * FROM products')
-    .then((result) => {
-        console.log(result)
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-
-
-
 //Spin up server, and connect to routes.js module
 application.listen(9000, 'localhost');
 

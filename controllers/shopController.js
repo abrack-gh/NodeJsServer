@@ -43,13 +43,16 @@ exports.getCart = (req, res, next) => {
     };
 
     exports.getIndex = (req, res, next) => {
-        res.render('../views/shop/index',
-            {
-                pageTitle: 'Shop - Home',
-                path: '/',
-                activeProduct: true,
-                productCSS: true
+        Product.fetchAll()
+            .then(([rows, fieldData]) => {
+                res.render('../views/shop/index',
+                    {
+                        prods: rows,
+                        pageTitle: 'Shop - Home',
+                        path: '/'
+                    })
             })
+            .catch(err => (console.log(err)));
     }
 
     exports.getProductDetails = (req, res, next) => {
@@ -74,22 +77,28 @@ exports.getCart = (req, res, next) => {
 
     exports.getProduct = (req, res, next) => {
         const prodId = req.params.productId;
-        Product.findById(prodId, product => {
-            res.render('shop/product-detail', {product: product, pageTitle: product.title, path: '/products'});
-        });
+        Product.findById(prodId)
+            .then(([product]) => {
+            res.render('shop/product-detail',
+                {
+                    product: product[0],
+                    pageTitle: product[0].title,
+                    path: '/products'
+                });
+        }).catch(err => (console.log(err)));
     };
 
     exports.getShopData = (req, res, next) => {
-        Product.fetchAll((products) => {
-
-            res.render('shop/shop', {
-                pageTitle: 'Shop',
-                prods: products, path: '/',
-                hasProducts: json != null,
-                activeShop: true, productCSS: true
-            });
-
-        });
+        Product.fetchAll()
+            .then(([rows]) => {
+                res.render('../views/shop/shop',
+                    {
+                        prods: rows,
+                        pageTitle: 'Shop - Home',
+                        path: '/'
+                    })
+            })
+            .catch(err => (console.log(err)));
     }
 
 
