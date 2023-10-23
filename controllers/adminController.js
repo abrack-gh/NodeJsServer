@@ -14,16 +14,16 @@ exports.getEditProducts = (req, res, next) => {
 }
 
 exports.getShop = (req, res, next) => {
-    Product.fetchAll((products) => {
-
-        res.render('admin/shop', {
-            pageTitle: 'Shop',
-            prods: products, path: '/',
-            hasProducts: json != null,
-            activeShop: true, productCSS: true
-        });
-
-    });
+    Product.findAll()
+        .then((products) => {
+            res.render('../views/admin/shop',
+                {
+                    prods: products,
+                    pageTitle: 'Shop - Home',
+                    path: '/'
+                })
+        })
+        .catch(err => (console.log(err)));
 }
 
 exports.getAddProduct = (req, res, next) => {
@@ -62,7 +62,8 @@ exports.getEditProduct = (req, res, next) => {
         return res.redirect('/');
     }
     const prodId = req.params.productId;
-    Product.findById(prodId, product => {
+    Product.findByPk(prodId)
+        .then(product => {
         if(!product){
            return res.redirect('/');
         }
@@ -83,9 +84,15 @@ exports.postEditProduct = (req, res, next) => {
     const updatedPrice = req.body.price;
     const updatedImage = req.body.imageUrl;
     const updatedDesc = req.body.description;
-    const updatedProduct = new Product(prodId, updatedTitle, updatedPrice,
-        updatedImage, updatedDesc);
-    updatedProduct.save();
+    Product.findByPk(prodId).then(product => {
+        product.title = updatedTitle;
+        product.price = updatedPrice;
+        product.imageUrl = updatedImage;
+        product.description = updatedDesc;
+        return product.save();
+    })
+        .then(result => {console.log('UPDATED PRODUCT')})
+        .catch(err => {console.log(err)})
     res.redirect('/admin/shop');
 };
 
